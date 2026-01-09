@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>C.AOSAMA</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4);
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 30px 35px;
+      border-radius: 12px;
+      width: 320px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      text-align: center;
+    }
+    .big {
+      display: flex;
+      align-items: center;
+      
+      height: 100%;
+      justify-content: center;
+
+    }
+    .container h2 {
+      margin-bottom: 20px;
+      color: #1e3c72;
+    }
+
+    .container input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .container input:focus {
+      outline: none;
+      border-color: #2a5298;
+    }
+
+    .container button {
+      width: 100%;
+      padding: 12px;
+      background: #2a5298;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .container button:hover {
+      background: #1e3c72;
+    }
+
+    #status {
+      margin-top: 15px;
+      font-size: 14px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <h1 style="text-align: center; color: white; margin-top: 30px;">C. Abdelrahman Osama</h1>
+  </div>
+  <div class="big">
+      <div class="container">
+    <h2>Session Registration</h2>
+
+    <input type="text" id="input1" placeholder=" Name">
+    <input type="date" id="input2" placeholder="Enter second value">
+
+    <button id="sendBtn">Send Data</button>
+
+    <p id="status"></p>
+  </div>
+
+  </div>
+
+  <script type="module">
+    // Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+    // 🔹 Firebase Config (بتاعك)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCG_WgG0WAEU8IwUy1AThN4gv-2tt4uatI",
+      authDomain: "aosama-squash.firebaseapp.com",
+      databaseURL: "https://aosama-squash-default-rtdb.firebaseio.com",
+      projectId: "aosama-squash",
+      storageBucket: "aosama-squash.firebasestorage.app",
+      messagingSenderId: "1010834525956",
+      appId: "1:1010834525956:web:8b44392a9f2b76c6ceca51",
+      measurementId: "G-PLCJ8Q4J45"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // Send Data
+    document.getElementById("sendBtn").addEventListener("click", () => {
+      const input1 = document.getElementById("input1").value;
+      const input2 = document.getElementById("input2").value;
+
+      if (!input1 || !input2) {
+        document.getElementById("status").style.color = "red";
+        document.getElementById("status").innerText = "Please fill all fields ❌";
+        return;
+      }
+
+      push(ref(database, "formData"), {
+        value1: input1,
+        value2: input2
+      });
+
+      document.getElementById("status").style.color = "green";
+      document.getElementById("status").innerText = "Data sent successfully ✅";
+
+      document.getElementById("input1").value = "";
+      document.getElementById("input2").value = "";
+    });
+  </script>
+
+</body>
+</html>
